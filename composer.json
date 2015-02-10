@@ -1,0 +1,25 @@
+{
+	"name": "carrooi/pdf-extractor",
+	"type": "library",
+	"description": "PDF text extractor",
+	"keywords": ["carrooi", "pdf", "text", "extract", "extractor"],
+	"license": ["MIT"],
+	"authors": [
+		{
+			"name": "David Kudera",
+			"homepage": "http://davidkudera.com",
+			"email": "kudera.d@gmail.com"
+		}
+	],
+	"require-dev": {
+		"nette/tester": "~1.3.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Carrooi\\PdfExtractor\\": "src/"
+		},
+		"classmap": [
+			"src/exceptions.php"
+		]
+	}
+}
