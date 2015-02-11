@@ -20,18 +20,11 @@ $ composer update
 use Carrooi\PdfExtractor\PdfExtractor;
 
 $extractor = new PdfExtractor;
-$extractor->setTemp('/temporary/directory/path');
 
 $text = $extractor->extractText('/path/to/file.pdf');
 ```
 
 ## Options
-
-### -nopgbrk
-
-```php
-$extractor->setPageNoBreak(true);
-```
 
 ### -layout
 
