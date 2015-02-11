@@ -30,7 +30,6 @@ class PdfExtractorTest extends TestCase
 	public function setUp()
 	{
 		$this->extractor = new PdfExtractor;
-		$this->extractor->setTemp(TEMP_DIR);
 	}
 
 
@@ -94,17 +93,7 @@ class PdfExtractorTest extends TestCase
 	{
 		$text = $this->extractor->extractText(__DIR__. '/files/simple.pdf');
 
-		Assert::same("test\n\n\x0c", $text);
-	}
-
-
-	public function testExtractText_pageNoBreak()
-	{
-		$this->extractor->setPageNoBreak(true);
-
-		$text = $this->extractor->extractText(__DIR__. '/files/simple.pdf');
-
-		Assert::same("test\n\n", $text);
+		Assert::contains("test", $text);
 	}
 
 
@@ -112,7 +101,8 @@ class PdfExtractorTest extends TestCase
 	{
 		$text = $this->extractor->extractText(__DIR__. '/files/layout.pdf');
 
-		Assert::same("Test\n\nTest2\n\n\x0c", $text);
+		Assert::contains("Test", $text);
+		Assert::contains("Test2", $text);
 	}
 
 
@@ -122,7 +112,7 @@ class PdfExtractorTest extends TestCase
 
 		$text = $this->extractor->extractText(__DIR__. '/files/layout.pdf');
 
-		Assert::same("Test   Test2\n\x0c", $text);
+		Assert::contains("Test   Test2", $text);
 	}
 
 

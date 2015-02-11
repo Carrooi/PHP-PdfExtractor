@@ -11,9 +11,6 @@ class PdfExtractor
 
 
 	/** @var string */
-	private $temp;
-
-	/** @var string */
 	private $program = 'pdftotext';
 
 	/** @var bool */
@@ -21,29 +18,6 @@ class PdfExtractor
 
 	/** @var bool */
 	private $preserveLayout = false;
-
-	/** @var bool */
-	private $pageNoBreak = false;
-
-
-	/**
-	 * @return string
-	 */
-	public function getTemp()
-	{
-		return $this->temp;
-	}
-
-
-	/**
-	 * @param string $temp
-	 * @return $this
-	 */
-	public function setTemp($temp)
-	{
-		$this->temp = $temp;
-		return $this;
-	}
 
 
 	/**
@@ -89,26 +63,6 @@ class PdfExtractor
 	/**
 	 * @return bool
 	 */
-	public function getPageNoBreak()
-	{
-		return $this->pageNoBreak;
-	}
-
-
-	/**
-	 * @param bool $pageNoBreak
-	 * @return $this
-	 */
-	public function setPageNoBreak($pageNoBreak = true)
-	{
-		$this->pageNoBreak = $pageNoBreak;
-		return $this;
-	}
-
-
-	/**
-	 * @return bool
-	 */
 	public function isAvailable()
 	{
 		if ($this->available === null) {
@@ -141,32 +95,23 @@ class PdfExtractor
 			throw new ExtractorException('Could not find pdf text extractor '. $this->getProgram(). '.');
 		}
 
-		$tempFile = $this->getTemp(). DIRECTORY_SEPARATOR. 'pdf_extractor_'. md5($file). '.txt';
-
 		$command = [
 			$this->getProgram(),
 			$file,
-			$tempFile,
 		];
-
-		if ($this->getPageNoBreak()) {
-			$command[] = '-nopgbrk';
-		}
 
 		if ($this->getPreserverLayout()) {
 			$command[] = '-layout';
 		}
 
+		$command[] = '-';		// output to stdout
 		$command[] = '2>&1';
 		$command = implode(' ', $command);
 
 		exec($command, $output, $return);
 
 		if ($return === 0) {
-			$content = file_get_contents($tempFile);
-			unlink($tempFile);
-
-			return $content;
+			return implode("\n", $output);
 		} else {
 			throw new ExtractorException($output[0]);
 		}
