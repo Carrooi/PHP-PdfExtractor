@@ -97,7 +97,7 @@ class PdfExtractor
 
 		$command = [
 			$this->getProgram(),
-			$file,
+			'"'. $file. '"',
 		];
 
 		if ($this->getPreserverLayout()) {
