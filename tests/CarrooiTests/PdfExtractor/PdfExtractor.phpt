@@ -76,7 +76,7 @@ class PdfExtractorTest extends TestCase
 		$this->extractor->setProgram('someRandomProgramName');
 
 		Assert::exception(function() {
-			$this->extractor->extractText(__FILE__);
+			$this->extractor->extractText(__DIR__. '/files/simple.pdf');
 		}, 'Carrooi\PdfExtractor\ExtractorException', 'Could not find pdf text extractor someRandomProgramName.');
 	}
 
@@ -120,7 +120,7 @@ class PdfExtractorTest extends TestCase
 	{
 		Assert::exception(function() {
 			$this->extractor->extractText(__DIR__. '/files/simple.txt');
-		}, 'Carrooi\PdfExtractor\ExtractorException', 'Syntax Warning: May not be a PDF file (continuing anyway)');
+		}, 'Carrooi\PdfExtractor\ExtractorException', 'File '. __DIR__. '/files/simple.txt is not valid PDF.');
 	}
 
 }

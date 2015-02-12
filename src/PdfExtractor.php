@@ -91,6 +91,10 @@ class PdfExtractor
 			throw new FileNotFoundException('Could not read file '. $file. '.');
 		}
 
+		if (finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $file) !== 'application/pdf' && strtolower(pathinfo($file, PATHINFO_EXTENSION)) !== 'pdf') {
+			throw new ExtractorException('File '. $file. ' is not valid PDF.');
+		}
+
 		if (!$this->isAvailable()) {
 			throw new ExtractorException('Could not find pdf text extractor '. $this->getProgram(). '.');
 		}
